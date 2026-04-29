@@ -665,22 +665,22 @@ export function App() {
             <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span>
           </button>
         </div>
-      </header>
 
-      <nav className="mobile-quick-nav" aria-label="Quick sections">
-        {navItems.map((item) => (
-          <button
-            key={item.key}
-            type="button"
-            onClick={() => handleScroll(item.target, item.offset)}
-          >
-            {t.nav[item.key]}
+        <nav className="mobile-quick-nav" aria-label="Quick sections">
+          {navItems.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => handleScroll(item.target, item.offset)}
+            >
+              {t.nav[item.key]}
+            </button>
+          ))}
+          <button type="button" className="mobile-quick-nav-cta" onClick={() => handleScroll('waitlist', 34)}>
+            {t.nav.join}
           </button>
-        ))}
-        <button type="button" className="mobile-quick-nav-cta" onClick={() => handleScroll('waitlist', 34)}>
-          {t.nav.join}
-        </button>
-      </nav>
+        </nav>
+      </header>
 
       <section className="hero" id="top">
         <div className="hero-copy">
