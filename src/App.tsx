@@ -610,7 +610,14 @@ export function App() {
             aria-label={`${t.brand} home`}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <img className="brand-logo" src="/assets/nexa-go.png" alt="" />
+            <img
+              className="brand-logo"
+              src="/assets/nexa-go.png"
+              alt=""
+              width={34}
+              height={34}
+              decoding="async"
+            />
           </button>
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
@@ -701,7 +708,15 @@ export function App() {
         <div className="phone-card" aria-label={t.phone.label}>
           <div className="phone-top">
             <span />
-            <img className="phone-corner-logo" src="/assets/nexa-go.png" alt="" />
+            <img
+              className="phone-corner-logo"
+              src="/assets/nexa-go.png"
+              alt=""
+              width={58}
+              height={58}
+              decoding="async"
+              aria-hidden="true"
+            />
           </div>
           <div className="route-card">
             <p>{t.phone.currentRide}</p>
