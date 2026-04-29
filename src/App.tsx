@@ -528,6 +528,9 @@ export function App() {
   })
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const [isNarrowLayout, setIsNarrowLayout] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 860px)').matches : false,
+  )
   const [locale, setLocale] = useState<Locale>(() => {
     if (typeof window === 'undefined') return 'en'
     const savedLocale = window.localStorage.getItem('nexa-go-locale')
@@ -552,6 +555,7 @@ export function App() {
       const progress = Math.min(window.scrollY / 260, 1)
       setScrollProgress(progress)
       setIsSmallScreen(window.innerWidth < 768)
+      setIsNarrowLayout(window.innerWidth <= 860)
     }
 
     updateScrollState()
@@ -568,10 +572,12 @@ export function App() {
     const shrink = easeOut(scrollProgress, 0.35, 1)
     const endWidth = isSmallScreen ? 85 : 75
     const width = 100 + (endWidth - 100) * shrink
-    const radius = 2 + (16 - 2) * glass
-    const padding = 16 * glass
-    const translateY = 6 * glass
-    const scale = 1 - 0.02 * glass
+    /** Narrow viewports (fixed bar + touch): smaller morph so header feels less “busy”. */
+    const m = isNarrowLayout ? 0.62 : 1
+    const radius = 2 + (16 - 2) * glass * m
+    const padding = 16 * glass * m
+    const translateY = (isNarrowLayout ? 3.5 : 6) * glass
+    const scale = 1 - (isNarrowLayout ? 0.012 : 0.02) * glass
 
     return {
       '--nav-width': `${width}%`,
@@ -581,12 +587,15 @@ export function App() {
       '--nav-scale': scale.toString(),
       '--nav-glass': glass.toString(),
     } as CSSProperties
-  }, [isSmallScreen, scrollProgress])
+  }, [isNarrowLayout, isSmallScreen, scrollProgress])
 
+  /** Stack under fixed header + mobile quick-nav (860px breakpoint). */
   const handleScroll = (target: string, offset = -80) => {
     const element = document.getElementById(target)
     if (!element) return
-    const top = element.getBoundingClientRect().top + window.scrollY + offset
+    const layeredOffset =
+      isNarrowLayout && offset < 0 ? offset - 62 : offset
+    const top = element.getBoundingClientRect().top + window.scrollY + layeredOffset
     window.scrollTo({ top, behavior: 'smooth' })
   }
 
@@ -606,7 +615,7 @@ export function App() {
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
               <button
-                key={item.target}
+                key={item.key}
                 type="button"
                 onClick={() => handleScroll(item.target, item.offset)}
               >
@@ -650,6 +659,21 @@ export function App() {
           </button>
         </div>
       </header>
+
+      <nav className="mobile-quick-nav" aria-label="Quick sections">
+        {navItems.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            onClick={() => handleScroll(item.target, item.offset)}
+          >
+            {t.nav[item.key]}
+          </button>
+        ))}
+        <button type="button" className="mobile-quick-nav-cta" onClick={() => handleScroll('waitlist', 34)}>
+          {t.nav.join}
+        </button>
+      </nav>
 
       <section className="hero" id="top">
         <div className="hero-copy">
@@ -808,9 +832,24 @@ export function App() {
           className="signup"
           onSubmit={(event) => {
             event.preventDefault()
+            const data = new FormData(event.currentTarget)
+            const email = String(data.get('email') ?? '').trim()
+            if (!email) return
+            const subject = encodeURIComponent('Nexa Go — Launch waitlist')
+            const body = encodeURIComponent(
+              `Please keep me informed about Nexa Go.\n\nEmail: ${email}\n`,
+            )
+            window.location.href = `mailto:contact@joinnexa.ma?subject=${subject}&body=${body}`
           }}
         >
-          <input type="email" placeholder={t.cta.email} aria-label={t.cta.email} />
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder={t.cta.email}
+            aria-label={t.cta.email}
+            autoComplete="email"
+          />
           <button type="submit">{t.cta.submit}</button>
         </form>
       </section>
@@ -831,18 +870,6 @@ export function App() {
           </div>
         </div>
       </footer>
-
-      <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
-        {navItems.map((item) => (
-          <button
-            key={item.target}
-            type="button"
-            onClick={() => handleScroll(item.target, item.offset)}
-          >
-            <span>{t.nav[item.key]}</span>
-          </button>
-        ))}
-      </nav>
     </main>
   )
 }
