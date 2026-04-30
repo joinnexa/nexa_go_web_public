@@ -1,4 +1,11 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type CSSProperties,
+  type SVGProps,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 type Locale = 'en' | 'fr' | 'ar'
 
@@ -174,7 +181,17 @@ const copy = {
       submit: 'Notify me',
     },
     contactLabel: 'Contact',
-    footer: 'Part of the Nexa ecosystem.',
+    footer: {
+      subtitle: 'Part of the Nexa ecosystem.',
+      disclaimer:
+        'Nexa Go is in development. Features, city availability, and pricing may change. Nothing on this page is legal, tax, or investment advice. Mobility and delivery services depend on local regulations and partner terms.',
+      quickLinks: 'Quick links',
+      social: 'Social',
+      instagramJoin: '@joinnexa',
+      nexagoSite: 'nexago.ma',
+      secured: 'Part of Nexa — built for Morocco.',
+      rightsReserved: 'All rights reserved.',
+    },
   },
   fr: {
     brand: 'Nexa Go',
@@ -340,7 +357,17 @@ const copy = {
       submit: 'Me prévenir',
     },
     contactLabel: 'Contact',
-    footer: 'Une partie de l’écosystème Nexa.',
+    footer: {
+      subtitle: 'Une partie de l’écosystème Nexa.',
+      disclaimer:
+        'Nexa Go est en développement. Les fonctionnalités, villes desservies et tarifs peuvent évoluer. Rien sur cette page ne constitue un conseil juridique, fiscal ou en investissement. Les services de mobilité et de livraison dépendent de la réglementation locale et des conditions des partenaires.',
+      quickLinks: 'Liens rapides',
+      social: 'Réseaux sociaux',
+      instagramJoin: '@joinnexa',
+      nexagoSite: 'nexago.ma',
+      secured: 'Une partie de Nexa — pensé pour le Maroc.',
+      rightsReserved: 'Tous droits réservés.',
+    },
   },
   ar: {
     brand: 'Nexa Go',
@@ -506,7 +533,17 @@ const copy = {
       submit: 'أعلمني',
     },
     contactLabel: 'التواصل',
-    footer: 'جزء من منظومة Nexa.',
+    footer: {
+      subtitle: 'جزء من منظومة Nexa.',
+      disclaimer:
+        'Nexa Go قيد التطوير. قد تتغير الميزات والمدن المتاحة والأسعار. لا يُعد أي محتوى هنا استشارة قانونية أو ضريبية أو استثمارية. خدمات التنقل والتوصيل تخضع للأنظمة المحلية وشروط الشركاء.',
+      quickLinks: 'روابط سريعة',
+      social: 'وسائل التواصل',
+      instagramJoin: '@joinnexa',
+      nexagoSite: 'nexago.ma',
+      secured: 'جزء من Nexa — للمغرب.',
+      rightsReserved: 'جميع الحقوق محفوظة.',
+    },
   },
 }
 
@@ -518,6 +555,27 @@ const navItems = [
   { key: 'drivers', target: 'drivers', offset: -54 },
   { key: 'contact', target: 'waitlist', offset: 34 },
 ] as const
+
+function InstagramGlyph({ className, ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      className={className}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  )
+}
 
 export function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -869,19 +927,112 @@ export function App() {
         </form>
       </section>
 
-      <footer>
-        <div className="footer-brand">
-          <span>{t.brand}</span>
-          <p>{t.footer}</p>
-        </div>
-        <div className="footer-contact">
-          <strong>{t.contactLabel}</strong>
-          <div className="footer-emails">
-            {contactEmails.map((email) => (
-              <a key={email} href={`mailto:${email}`}>
-                {email}
-              </a>
-            ))}
+      <footer id="footer-contact" className="site-footer">
+        <div className="footer-inner">
+          <div className="footer-brand-row">
+            <img
+              className="footer-logo"
+              src="/assets/nexa-go.png"
+              alt=""
+              width={48}
+              height={48}
+              decoding="async"
+            />
+            <div className="footer-brand-text">
+              <div className="footer-title">{t.brand}</div>
+              <p className="footer-subtitle">{t.footer.subtitle}</p>
+            </div>
+          </div>
+
+          <p className={`footer-disclaimer ${isRtl ? 'is-rtl' : ''}`}>{t.footer.disclaimer}</p>
+
+          <div className="footer-columns">
+            <div className="footer-col">
+              <h3 className="footer-col-title">{t.footer.quickLinks}</h3>
+              <ul className="footer-link-list">
+                <li>
+                  <button type="button" onClick={() => handleScroll('why', -54)}>
+                    {t.nav.why}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => handleScroll('services', -54)}>
+                    {t.nav.services}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => handleScroll('how', -54)}>
+                    {t.nav.how}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => handleScroll('trust', -54)}>
+                    {t.nav.trust}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => handleScroll('drivers', -54)}>
+                    {t.nav.drivers}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => handleScroll('cities', -54)}>
+                    {t.cities.eyebrow}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => handleScroll('waitlist', 34)}>
+                    {t.nav.join}
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div className="footer-col">
+              <h3 className="footer-col-title">{t.contactLabel}</h3>
+              <div className="footer-emails">
+                {contactEmails.map((email) => (
+                  <a key={email} href={`mailto:${email}`}>
+                    {email}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="footer-col footer-col-social">
+              <h3 className="footer-col-title">{t.footer.social}</h3>
+              <ul className="footer-social-list">
+                <li>
+                  <a
+                    href="https://www.instagram.com/joinnexa/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                  >
+                    <InstagramGlyph className="footer-social-icon" aria-hidden />
+                    <span>{t.footer.instagramJoin}</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.instagram.com/nexago.ma/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                  >
+                    <InstagramGlyph className="footer-social-icon" aria-hidden />
+                    <span>{t.footer.nexagoSite}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className={`footer-bottom ${isRtl ? 'is-rtl' : ''}`}>
+            <p>{t.footer.secured}</p>
+            <p>
+              © {new Date().getFullYear()} Nexa — Morocco · {t.footer.rightsReserved}
+            </p>
           </div>
         </div>
       </footer>
