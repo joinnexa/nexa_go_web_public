@@ -1,4 +1,4 @@
-import {
+import React, {
   type CSSProperties,
   type SVGProps,
   useEffect,
