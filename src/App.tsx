@@ -8,8 +8,59 @@ import React, {
 } from 'react'
 
 type Locale = 'en' | 'fr' | 'ar'
+type WaitlistOption = { value: string; label: string }
 
 const locales: Locale[] = ['en', 'fr', 'ar']
+const moroccoCities = [
+  'Casablanca',
+  'Rabat',
+  'Marrakech',
+  'Fes',
+  'Tangier',
+  'Agadir',
+  'Meknes',
+  'Oujda',
+  'Kenitra',
+  'Tetouan',
+]
+const cityLabels: Record<Locale, Record<string, string>> = {
+  en: {
+    Casablanca: 'Casablanca',
+    Rabat: 'Rabat',
+    Marrakech: 'Marrakech',
+    Fes: 'Fes',
+    Tangier: 'Tangier',
+    Agadir: 'Agadir',
+    Meknes: 'Meknes',
+    Oujda: 'Oujda',
+    Kenitra: 'Kenitra',
+    Tetouan: 'Tetouan',
+  },
+  fr: {
+    Casablanca: 'Casablanca',
+    Rabat: 'Rabat',
+    Marrakech: 'Marrakech',
+    Fes: 'Fes',
+    Tangier: 'Tanger',
+    Agadir: 'Agadir',
+    Meknes: 'Meknes',
+    Oujda: 'Oujda',
+    Kenitra: 'Kenitra',
+    Tetouan: 'Tetouan',
+  },
+  ar: {
+    Casablanca: 'الدار البيضاء',
+    Rabat: 'الرباط',
+    Marrakech: 'مراكش',
+    Fes: 'فاس',
+    Tangier: 'طنجة',
+    Agadir: 'أكادير',
+    Meknes: 'مكناس',
+    Oujda: 'وجدة',
+    Kenitra: 'القنيطرة',
+    Tetouan: 'تطوان',
+  },
+}
 const contactEmails = [
   'contact@joinnexa.ma',
   'support@joinnexa.ma',
@@ -170,6 +221,7 @@ const copy = {
         { city: 'Casablanca', status: 'Initial launch focus' },
         { city: 'Rabat', status: 'Planned next market' },
         { city: 'Marrakech', status: 'Expansion candidate' },
+        { city: 'Agadir', status: 'Expansion candidate' },
       ],
     },
     cta: {
@@ -177,8 +229,28 @@ const copy = {
       title: 'Be first to ride, deliver, or partner with Nexa Go.',
       text: 'Join the launch list and we will contact you when Nexa Go opens in your city.',
       segments: ['Rider', 'Driver / Courier', 'Merchant / Partner'],
-      email: 'Email address',
-      submit: 'Notify me',
+      fullName: 'Full Name',
+      fullNamePlaceholder: 'Enter your full name',
+      phone: 'Phone Number',
+      phonePlaceholder: '06XXXXXXXX',
+      email: 'Email',
+      emailPlaceholder: 'your@email.com',
+      city: 'City',
+      role: 'I am joining as',
+      rolePlaceholder: 'Select one',
+      consumer: 'Consumer',
+      merchant: 'Merchant',
+      investor: 'Investor',
+      rider: 'Rider',
+      driverCourier: 'Driver / Courier',
+      merchantPartner: 'Merchant / Partner',
+      usage: 'How do you plan to use Nexa Go? (Optional)',
+      usagePlaceholder: 'Tell us briefly how you plan to use Nexa Go...',
+      submit: 'Join the Waitlist',
+      submitting: 'Submitting...',
+      privacy: 'Your information is encrypted and kept confidential.',
+      success: 'Thank you. Your request has been submitted successfully.',
+      genericError: 'Something went wrong. Please try again.',
     },
     contactLabel: 'Contact',
     footer: {
@@ -346,6 +418,7 @@ const copy = {
         { city: 'Casablanca', status: 'Ville de lancement prioritaire' },
         { city: 'Rabat', status: 'Marché prévu ensuite' },
         { city: 'Marrakech', status: 'Ville candidate à l’expansion' },
+        { city: 'Agadir', status: 'Ville candidate à l’expansion' },
       ],
     },
     cta: {
@@ -353,8 +426,28 @@ const copy = {
       title: 'Soyez parmi les premiers à rouler, livrer ou devenir partenaire.',
       text: 'Rejoignez la liste de lancement et nous vous contacterons quand Nexa Go ouvrira dans votre ville.',
       segments: ['Passager', 'Chauffeur / Coursier', 'Commerçant / Partenaire'],
-      email: 'Adresse e-mail',
-      submit: 'Me prévenir',
+      fullName: 'Nom complet',
+      fullNamePlaceholder: 'Entrez votre nom complet',
+      phone: 'Numero de telephone',
+      phonePlaceholder: '06XXXXXXXX',
+      email: 'Email',
+      emailPlaceholder: 'votre@email.com',
+      city: 'Ville',
+      role: 'Je rejoins en tant que',
+      rolePlaceholder: 'Selectionnez une option',
+      consumer: 'Consommateur',
+      merchant: 'Commercant',
+      investor: 'Investisseur',
+      rider: 'Passager',
+      driverCourier: 'Chauffeur / Coursier',
+      merchantPartner: 'Commercant / Partenaire',
+      usage: 'Comment comptez-vous utiliser Nexa Go ? (Optionnel)',
+      usagePlaceholder: 'Dites-nous brievement comment vous comptez utiliser Nexa Go...',
+      submit: "Rejoindre la liste d'attente",
+      submitting: 'Envoi en cours...',
+      privacy: 'Vos informations sont chiffrees et restent confidentielles.',
+      success: 'Merci. Votre demande a ete envoyee avec succes.',
+      genericError: 'Une erreur est survenue. Veuillez reessayer.',
     },
     contactLabel: 'Contact',
     footer: {
@@ -522,6 +615,7 @@ const copy = {
         { city: 'الدار البيضاء', status: 'مدينة الإطلاق الأولى' },
         { city: 'الرباط', status: 'السوق التالية في الخطة' },
         { city: 'مراكش', status: 'مرشحة للتوسع' },
+        { city: 'أكادير', status: 'مرشحة للتوسع' },
       ],
     },
     cta: {
@@ -529,8 +623,28 @@ const copy = {
       title: 'كن من أوائل المستخدمين أو السائقين أو الشركاء.',
       text: 'انضم إلى قائمة الإطلاق وسنتواصل معك عندما يفتح Nexa Go في مدينتك.',
       segments: ['راكب', 'سائق / موزع', 'تاجر / شريك'],
-      email: 'البريد الإلكتروني',
-      submit: 'أعلمني',
+      fullName: 'الاسم الكامل',
+      fullNamePlaceholder: 'ادخل اسمك الكامل',
+      phone: 'رقم الهاتف',
+      phonePlaceholder: '06XXXXXXXX',
+      email: 'البريد الالكتروني',
+      emailPlaceholder: 'your@email.com',
+      city: 'المدينة',
+      role: 'انضم بصفتي',
+      rolePlaceholder: 'اختر فئة',
+      consumer: 'مستهلك',
+      merchant: 'تاجر',
+      investor: 'مستثمر',
+      rider: 'راكب',
+      driverCourier: 'سائق / موزع',
+      merchantPartner: 'تاجر / شريك',
+      usage: 'كيف تخطط لاستخدام Nexa Go؟ (اختياري)',
+      usagePlaceholder: 'اخبرنا باختصار كيف تخطط لاستخدام Nexa Go...',
+      submit: 'انضم الى قائمة الانتظار',
+      submitting: 'جار الارسال...',
+      privacy: 'معلوماتك مشفرة ويتم حفظها بسرية.',
+      success: 'شكرا لك. تم ارسال طلبك بنجاح.',
+      genericError: 'حدث خطا ما. حاول مرة اخرى.',
     },
     contactLabel: 'التواصل',
     footer: {
@@ -596,6 +710,24 @@ export function App() {
   })
   const t = copy[locale]
   const isRtl = locale === 'ar'
+  const moroccoCityOptions: WaitlistOption[] = useMemo(
+    () =>
+      moroccoCities.map((city) => ({
+        value: city,
+        label: cityLabels[locale][city] ?? city,
+      })),
+    [locale],
+  )
+  const [formData, setFormData] = useState({
+    full_name: '',
+    phone_number: '',
+    email: '',
+    city: 'Casablanca',
+    role: '',
+    usage_note: '',
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -628,7 +760,7 @@ export function App() {
   const navStyle = useMemo(() => {
     const glass = easeOut(scrollProgress, 0.1, 1)
     const shrink = easeOut(scrollProgress, 0.35, 1)
-    const endWidth = isSmallScreen ? 85 : 75
+    const endWidth = isSmallScreen ? 85 : 88
     const width = 100 + (endWidth - 100) * shrink
     /** Narrow viewports (fixed bar + touch): smaller morph so header feels less “busy”. */
     const m = isNarrowLayout ? 0.62 : 1
@@ -655,6 +787,66 @@ export function App() {
       isNarrowLayout && offset < 0 ? offset - 62 : offset
     const top = element.getBoundingClientRect().top + window.scrollY + layeredOffset
     window.scrollTo({ top, behavior: 'smooth' })
+  }
+
+  const handleWaitlistInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target
+    setFormData((previous) => ({ ...previous, [name]: value }))
+  }
+
+  const handleWaitlistSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (isSubmitting) return
+    setIsSubmitting(true)
+    setSubmitMessage(null)
+
+    try {
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000'
+      const response = await fetch(`${apiBaseUrl}/api/v1/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name: formData.full_name,
+          phone_number: formData.phone_number,
+          email: formData.email,
+          city: formData.city,
+          how_will_use_nexa: formData.usage_note || undefined,
+          user_type: formData.role,
+          source: 'nexa_go_web_public',
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        const message = errorData.message
+        throw new Error(
+          typeof message === 'string'
+            ? message
+            : Array.isArray(message)
+              ? message.join(', ')
+              : t.cta.genericError,
+        )
+      }
+
+      setSubmitMessage({ type: 'success', text: t.cta.success })
+      setFormData({
+        full_name: '',
+        phone_number: '',
+        email: '',
+        city: 'Casablanca',
+        role: '',
+        usage_note: '',
+      })
+    } catch (error) {
+      setSubmitMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : t.cta.genericError,
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -901,29 +1093,95 @@ export function App() {
             <span key={segment}>{segment}</span>
           ))}
         </div>
-        <form
-          className="signup"
-          onSubmit={(event) => {
-            event.preventDefault()
-            const data = new FormData(event.currentTarget)
-            const email = String(data.get('email') ?? '').trim()
-            if (!email) return
-            const subject = encodeURIComponent('Nexa Go — Launch waitlist')
-            const body = encodeURIComponent(
-              `Please keep me informed about Nexa Go.\n\nEmail: ${email}\n`,
-            )
-            window.location.href = `mailto:contact@joinnexa.ma?subject=${subject}&body=${body}`
-          }}
-        >
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder={t.cta.email}
-            aria-label={t.cta.email}
-            autoComplete="email"
-          />
-          <button type="submit">{t.cta.submit}</button>
+        {submitMessage && (
+          <p className={`waitlist-status ${submitMessage.type}`}>{submitMessage.text}</p>
+        )}
+        <form className="signup" dir={isRtl ? 'rtl' : 'ltr'} onSubmit={handleWaitlistSubmit}>
+          <label>
+            {t.cta.fullName} <span className="required-mark">*</span>
+            <input
+              type="text"
+              name="full_name"
+              required
+              value={formData.full_name}
+              placeholder={t.cta.fullNamePlaceholder}
+              onChange={handleWaitlistInputChange}
+              autoComplete="name"
+            />
+          </label>
+          <label>
+            {t.cta.phone} <span className="required-mark">*</span>
+            <input
+              type="tel"
+              name="phone_number"
+              required
+              value={formData.phone_number}
+              placeholder={t.cta.phonePlaceholder}
+              onChange={handleWaitlistInputChange}
+              autoComplete="tel"
+            />
+          </label>
+          <label>
+            {t.cta.email} <span className="required-mark">*</span>
+            <input
+              type="email"
+              name="email"
+              required
+              value={formData.email}
+              placeholder={t.cta.emailPlaceholder}
+              onChange={handleWaitlistInputChange}
+              autoComplete="email"
+            />
+          </label>
+          <label>
+            {t.cta.role} <span className="required-mark">*</span>
+            <WaitlistDropdown
+              value={formData.role}
+              options={[
+                { value: 'investor', label: t.cta.investor },
+                { value: 'rider', label: t.cta.rider },
+                { value: 'driver_courier', label: t.cta.driverCourier },
+                { value: 'merchant_partner', label: t.cta.merchantPartner },
+              ]}
+              placeholder={t.cta.rolePlaceholder}
+              ariaLabel={t.cta.role}
+              isRtl={isRtl}
+              onChange={(value) =>
+                setFormData((previous) => ({ ...previous, role: value }))
+              }
+            />
+            <input
+              type="hidden"
+              value={formData.role}
+              name="role"
+              required
+            />
+          </label>
+          <label>
+            {t.cta.city} <span className="required-mark">*</span>
+            <WaitlistDropdown
+              value={formData.city}
+              options={moroccoCityOptions}
+              ariaLabel={t.cta.city}
+              isRtl={isRtl}
+              onChange={(value) =>
+                setFormData((previous) => ({ ...previous, city: value }))
+              }
+            />
+          </label>
+          <label>
+            {t.cta.usage}
+            <textarea
+              name="usage_note"
+              value={formData.usage_note}
+              placeholder={t.cta.usagePlaceholder}
+              onChange={handleWaitlistInputChange}
+            />
+          </label>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? t.cta.submitting : t.cta.submit}
+          </button>
+          <p className="waitlist-privacy">{t.cta.privacy}</p>
         </form>
       </section>
 
@@ -1103,6 +1361,84 @@ function LanguageDropdown({
               }}
             >
               {item.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function WaitlistDropdown({
+  value,
+  options,
+  placeholder,
+  ariaLabel,
+  isRtl,
+  onChange,
+}: {
+  value: string
+  options: WaitlistOption[]
+  placeholder?: string
+  ariaLabel: string
+  isRtl?: boolean
+  onChange: (value: string) => void
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [])
+
+  const selectedLabel = options.find((option) => option.value === value)?.label
+  const displayText = selectedLabel ?? placeholder ?? options[0]?.label ?? ''
+  const isPlaceholder = !selectedLabel && Boolean(placeholder)
+
+  return (
+    <div className="waitlist-dropdown" ref={containerRef}>
+      <button
+        type="button"
+        className="waitlist-select-trigger"
+        dir={isRtl ? 'rtl' : 'ltr'}
+        aria-label={ariaLabel}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((previous) => !previous)}
+      >
+        <span className={isPlaceholder ? 'is-placeholder' : ''}>{displayText}</span>
+        <span className={`waitlist-select-chevron ${isOpen ? 'open' : ''}`} aria-hidden="true">
+          ⌄
+        </span>
+      </button>
+      {isOpen && (
+        <div className="waitlist-select-menu" role="listbox" aria-label={ariaLabel}>
+          {options.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              className={`waitlist-select-option ${option.value === value ? 'active' : ''}`}
+              role="option"
+              aria-selected={option.value === value}
+              onClick={() => {
+                onChange(option.value)
+                setIsOpen(false)
+              }}
+            >
+              {option.label}
             </button>
           ))}
         </div>
