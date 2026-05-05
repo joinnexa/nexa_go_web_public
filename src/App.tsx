@@ -258,6 +258,7 @@ const copy = {
       disclaimer:
         'Nexa Go is in development. Features, city availability, and pricing may change. Nothing on this page is legal, tax, or investment advice. Mobility and delivery services depend on local regulations and partner terms.',
       quickLinks: 'Quick links',
+      aboutNexaGo: 'What is Nexa Go?',
       social: 'Social',
       instagramJoin: '@joinnexa',
       nexagoSite: 'nexago.ma',
@@ -455,6 +456,7 @@ const copy = {
       disclaimer:
         'Nexa Go est en développement. Les fonctionnalités, villes desservies et tarifs peuvent évoluer. Rien sur cette page ne constitue un conseil juridique, fiscal ou en investissement. Les services de mobilité et de livraison dépendent de la réglementation locale et des conditions des partenaires.',
       quickLinks: 'Liens rapides',
+      aboutNexaGo: 'Qu’est-ce que Nexa Go ?',
       social: 'Réseaux sociaux',
       instagramJoin: '@joinnexa',
       nexagoSite: 'nexago.ma',
@@ -652,6 +654,7 @@ const copy = {
       disclaimer:
         'Nexa Go قيد التطوير. قد تتغير الميزات والمدن المتاحة والأسعار. لا يُعد أي محتوى هنا استشارة قانونية أو ضريبية أو استثمارية. خدمات التنقل والتوصيل تخضع للأنظمة المحلية وشروط الشركاء.',
       quickLinks: 'روابط سريعة',
+      aboutNexaGo: 'ما هو Nexa Go؟',
       social: 'وسائل التواصل',
       instagramJoin: '@joinnexa',
       nexagoSite: 'nexago.ma',
@@ -1208,6 +1211,9 @@ export function App() {
             <div className="footer-col">
               <h3 className="footer-col-title">{t.footer.quickLinks}</h3>
               <ul className="footer-link-list">
+                <li>
+                  <a href="/about-nexa-go/">{t.footer.aboutNexaGo}</a>
+                </li>
                 <li>
                   <button type="button" onClick={() => handleScroll('why', -54)}>
                     {t.nav.why}

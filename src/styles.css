@@ -1157,6 +1157,18 @@ h3 {
   color: var(--text);
 }
 
+.footer-link-list a {
+  display: inline-block;
+  font-size: 0.88rem;
+  color: var(--muted-strong);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.footer-link-list a:hover {
+  color: var(--text);
+}
+
 .footer-emails {
   display: grid;
   gap: 6px;
@@ -1256,6 +1268,10 @@ h3 {
 }
 
 :root[dir='rtl'] .footer-link-list button {
+  text-align: right;
+}
+
+:root[dir='rtl'] .footer-link-list a {
   text-align: right;
 }
 
