@@ -706,7 +706,7 @@ export function App() {
   const [locale, setLocale] = useState<Locale>(() => {
     if (typeof window === 'undefined') return 'en'
     const savedLocale = window.localStorage.getItem('nexa-go-locale')
-    return isLocale(savedLocale) ? savedLocale : 'en'
+    return isLocale(savedLocale) ? savedLocale : localeFromNavigatorLanguages()
   })
   const t = copy[locale]
   const isRtl = locale === 'ar'
@@ -1300,6 +1300,22 @@ export function App() {
 
 function isLocale(value: string | null): value is Locale {
   return value === 'en' || value === 'fr' || value === 'ar'
+}
+
+/** First matching supported locale from navigator.languages / navigator.language. */
+function localeFromNavigatorLanguages(): Locale {
+  if (typeof navigator === 'undefined') return 'en'
+  const list =
+    typeof navigator.languages !== 'undefined' && navigator.languages.length > 0
+      ? navigator.languages
+      : [navigator.language]
+  for (const tag of list) {
+    const base = String(tag).split('-')[0]?.toLowerCase()
+    if (base === 'ar') return 'ar'
+    if (base === 'fr') return 'fr'
+    if (base === 'en') return 'en'
+  }
+  return 'en'
 }
 
 function LanguageDropdown({
